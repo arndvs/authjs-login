@@ -1,0 +1,135 @@
+{
+  // TypeScript settings
+  "typescript.tsdk": "node_modules\\typescript\\lib", // Specifies the path to the TypeScript Language Service.
+  "typescript.enablePromptUseWorkspaceTsdk": true, // Enables prompting the user to use the workspace TypeScript version.
+  // TypeScript preferences
+  "typescript.preferences.importModuleSpecifier": "non-relative", // Specifies how TypeScript should generate import statements.
+  // Workbench settings
+  "workbench.colorCustomizations": {
+    // Customizes colors for various UI elements.
+    "editorStickyScroll.background": "#232323", // Sets the background color for the sticky scroll bar.
+    "editorStickyScrollHover.background": "#333333" // Sets the background color for the sticky scroll bar when hovered over.
+  },
+  // JavaScript and TypeScript settings for updating imports on file move
+  "javascript.updateImportsOnFileMove.enabled": "always", // Specifies how JavaScript should handle import statements when files are moved.
+  "typescript.updateImportsOnFileMove.enabled": "always", // Specifies how TypeScript should handle import statements when files are moved.
+  // Prettier settings
+  "editor.formatOnPaste": true, // Formats the code when pasting it into the editor.
+  "editor.formatOnSave": true, // Formats the code when saving the file.
+  "prettier.requireConfig": true, // Requires a prettier configuration file.
+  "prettier.useEditorConfig": true, // Enables using an .editorconfig file to configure prettier.
+  "prettier.singleQuote": true, // Uses single quotes instead of double quotes.
+  "prettier.jsxSingleQuote": true, // Uses single quotes for JSX attributes.
+  "javascript.preferences.quoteStyle": "single", // Sets the quote style for JavaScript files.
+  "typescript.preferences.quoteStyle": "single", // Sets the quote style for TypeScript files.
+  // Language-specific formatting settings
+  "[javascript]": {
+    // Settings specific to JavaScript files.
+    "editor.defaultFormatter": "esbenp.prettier-vscode", // Specifies the default formatter for JavaScript files.
+    "editor.formatOnSave": true // Formats the code when saving the file.
+  },
+  "[javascriptreact]": {
+    // Settings specific to JavaScript React files.
+    "editor.defaultFormatter": "esbenp.prettier-vscode", // Specifies the default formatter for JavaScript React files.
+    "editor.formatOnSave": true // Formats the code when saving the file.
+  },
+  "[jsonc]": {
+    // Settings specific to JSON with comments files.
+    "editor.defaultFormatter": "esbenp.prettier-vscode", // Specifies the default formatter for JSON with comments files.
+    "editor.formatOnSave": true // Formats the code when saving the file.
+  },
+  "[html]": {
+    // Settings specific to HTML files.
+    "editor.defaultFormatter": "vscode.html-language-features" // Specifies the default formatter for HTML files.
+  },
+  "[typescript]": {
+    // Settings specific to TypeScript files.
+    "editor.defaultFormatter": "esbenp.prettier-vscode", // Specifies the default formatter for TypeScript files.
+    "editor.formatOnSave": true // Formats the code when saving the file.
+  },
+  "[typescriptreact]": {
+    // Settings specific to TypeScript React files.
+    "editor.defaultFormatter": "esbenp.prettier-vscode", // Specifies the default formatter for TypeScript React files.
+    "editor.formatOnSave": true // Formats the code when saving the file.
+  },
+  "yaml.format.singleQuote": true, // Uses single quotes for YAML attributes.
+  // Emmet settings
+  "emmet.triggerExpansionOnTab": true, // Expands Emmet abbreviations when the Tab key is pressed.
+  "emmet.includeLanguages": {
+    // Specifies the languages for which Emmet abbreviations should be expanded.
+    "javascript": "javascriptreact" // Specifies that Emmet abbreviations should be expanded for JavaScript React files.
+  },
+  "emmet.syntaxProfiles": {
+    // Specifies syntax profiles for Emmet.
+    "xml": {
+      // Specifies syntax profile for XML.
+      "attr_quotes": "single" // Uses single quotes for XML attributes.
+    },
+    "html": {
+      // Specifies syntax profile for HTML.
+      "attr_quotes": "single" // Uses single quotes for HTML attributes.
+    },
+    "js": {
+      // Specifies syntax profile for JavaScript.
+      "attr_quotes": "single", // Uses single quotes for JavaScript attributes.
+      "self_closing_tag": true // Specifies that self-closing tags should be used for JavaScript.
+    },
+    "jsx": {
+      // Specifies syntax profile for JSX.
+      "attr_quotes": "single", // Uses single quotes for JSX attributes.
+      "self_closing_tag": true // Specifies that self-closing tags should be used for JSX.
+    }
+  },
+  // Specifies custom words for the Code Spell Checker extension.
+  "cSpell.words": [
+    "anika",
+    "appra",
+    "clsx",
+    "colorpicker",
+    "couldn",
+    "cust",
+    "devias",
+    "drilldown",
+    "dropdownoption",
+    "dropzone",
+    "endregion",
+    "esl",
+    "eslint",
+    "eslintcache",
+    "eslintignore",
+    "eslintrc",
+    "firstname",
+    "fontsource",
+    "formik",
+    "givenname",
+    "hocs",
+    "INIITIALIZE",
+    "Laravel",
+    "lastname",
+    "lato",
+    "nprogress",
+    "optionwrapper",
+    "Pdfs",
+    "postcss",
+    "prettier",
+    "ripemetrics",
+    "sched",
+    "sendgrid",
+    "simplebar",
+    "structs",
+    "stylis",
+    "svgr",
+    "theat",
+    "timeframe",
+    "Upsert",
+    "upserted",
+    "userbar",
+    "visser"
+  ],
+  // Other settings
+  "editor.acceptSuggestionOnEnter": "on", // Specifies whether to accept suggestions when pressing the Enter key.
+  "editor.tabCompletion": "on", // Specifies whether to enable tab completion.
+  "diffEditor.codeLens": true, // Enables CodeLens for the Git Diff editor.
+  "workbench.colorTheme": "One Dark Pro Darker", // Specifies the color theme for the VSCode interface.
+  "editor.guides.bracketPairs": true // Highlights matching brackets.
+}
