@@ -1,6 +1,6 @@
 "use client";
 
-import { admin } from "@/actions/admin";
+import { admin } from "@/lib/actions/admin";
 import { RoleGate } from "@/components/auth/role-gate";
 import { FormSuccess } from "@/components/form-success";
 import { Button } from "@/components/ui/button";
@@ -21,7 +21,7 @@ const AdminPage = () => {
         }
       })
   }
-  
+
   const onApiRouteClick = () => {
     fetch("/api/admin")
       .then((response) => {
