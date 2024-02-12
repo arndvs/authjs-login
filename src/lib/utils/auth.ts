@@ -1,4 +1,4 @@
-import { auth } from '@/lib/auth/next-auth-config';
+import { auth } from '../../../auth';
 
 export const currentUser = async () => {
   const session = await auth();

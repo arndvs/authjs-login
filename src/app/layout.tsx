@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { SessionProvider } from 'next-auth/react';
-import { auth } from '@/lib/auth/next-auth-config';
+import { auth } from '../../auth';
 import '@/lib/styles/globals.css';
 import { Toaster } from '@/components/ui/sonner';
 

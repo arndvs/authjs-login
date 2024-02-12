@@ -4,7 +4,7 @@ import * as z from 'zod';
 import { AuthError } from 'next-auth';
 
 import { db } from '@/lib/utils/db';
-import { signIn } from '@/lib/auth/next-auth-config';
+import { signIn } from '../../../auth';
 import { LoginSchema } from '@/lib/schemas';
 import { getUserByEmail } from '@/lib/data/user';
 import { getTwoFactorTokenByEmail } from '@/lib/data/two-factor-token';
@@ -12,7 +12,7 @@ import {
   sendVerificationEmail,
   sendTwoFactorTokenEmail
 } from '@/lib/utils/mail';
-import { DEFAULT_LOGIN_REDIRECT } from '@/lib/routes';
+import { DEFAULT_LOGIN_REDIRECT } from '../../../routes';
 import {
   generateVerificationToken,
   generateTwoFactorToken
