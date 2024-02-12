@@ -4,20 +4,20 @@ import * as z from "zod";
 import { AuthError } from "next-auth";
 
 import { db } from "@/lib/db";
-import { signIn } from "@/auth";
+import { signIn } from "@/src/lib/auth/auth";
 import { LoginSchema } from "@/schemas";
 import { getUserByEmail } from "@/data/user";
 import { getTwoFactorTokenByEmail } from "@/data/two-factor-token";
-import { 
+import {
   sendVerificationEmail,
   sendTwoFactorTokenEmail,
 } from "@/lib/mail";
-import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
-import { 
+import { DEFAULT_LOGIN_REDIRECT } from "@/src/lib/auth/routes";
+import {
   generateVerificationToken,
   generateTwoFactorToken
 } from "@/lib/tokens";
-import { 
+import {
   getTwoFactorConfirmationByUserId
 } from "@/data/two-factor-confirmation";
 
