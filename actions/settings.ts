@@ -4,12 +4,12 @@ import * as z from "zod";
 import bcrypt from "bcryptjs";
 
 import { update } from "@/src/lib/auth/auth";
-import { db } from "@/src/lib/utils/db";
-import { SettingsSchema } from "@/schemas";
+import { db } from "@/src/utils/db";
+import { SettingsSchema } from "@/src/lib/schemas";
 import { getUserByEmail, getUserById } from "@/data/user";
-import { currentUser } from "@/src/lib/utils/auth";
-import { generateVerificationToken } from "@/src/lib/utils/tokens";
-import { sendVerificationEmail } from "@/src/lib/utils/mail";
+import { currentUser } from "@/src/utils/auth";
+import { generateVerificationToken } from "@/src/utils/tokens";
+import { sendVerificationEmail } from "@/src/utils/mail";
 
 export const settings = async (
   values: z.infer<typeof SettingsSchema>

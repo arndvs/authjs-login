@@ -3,20 +3,20 @@
 import * as z from "zod";
 import { AuthError } from "next-auth";
 
-import { db } from "@/src/lib/utils/db";
+import { db } from "@/src/utils/db";
 import { signIn } from "@/src/lib/auth/auth";
-import { LoginSchema } from "@/schemas";
+import { LoginSchema } from "@/src/lib/schemas";
 import { getUserByEmail } from "@/data/user";
 import { getTwoFactorTokenByEmail } from "@/data/two-factor-token";
 import {
   sendVerificationEmail,
   sendTwoFactorTokenEmail,
-} from "@/src/lib/utils/mail";
+} from "@/src/utils/mail";
 import { DEFAULT_LOGIN_REDIRECT } from "@/src/lib/auth/routes";
 import {
   generateVerificationToken,
   generateTwoFactorToken
-} from "@/src/lib/utils/tokens";
+} from "@/src/utils/tokens";
 import {
   getTwoFactorConfirmationByUserId
 } from "@/data/two-factor-confirmation";

@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { SettingsSchema } from "@/schemas";
+import { SettingsSchema } from "@/src/lib/schemas";
 import {
   Card,
   CardHeader,

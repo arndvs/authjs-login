@@ -1,6 +1,6 @@
 "use server";
 
-import { db } from "@/src/lib/utils/db";
+import { db } from "@/src/utils/db";
 import { getUserByEmail } from "@/data/user";
 import { getVerificationTokenByToken } from "@/data/verificiation-token";
 
