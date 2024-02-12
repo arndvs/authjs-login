@@ -3,23 +3,23 @@
 import * as z from "zod";
 import { AuthError } from "next-auth";
 
-import { db } from "@/src/utils/db";
-import { signIn } from "@/src/auth/auth";
-import { LoginSchema } from "@/src/schemas";
-import { getUserByEmail } from "@/src/data/user";
-import { getTwoFactorTokenByEmail } from "@/src/data/two-factor-token";
+import { db } from "@/utils/db";
+import { signIn } from "@/auth/auth";
+import { LoginSchema } from "@/schemas";
+import { getUserByEmail } from "@/data/user";
+import { getTwoFactorTokenByEmail } from "@/data/two-factor-token";
 import {
   sendVerificationEmail,
   sendTwoFactorTokenEmail,
-} from "@/src/utils/mail";
-import { DEFAULT_LOGIN_REDIRECT } from "@/src/auth/routes";
+} from "@/utils/mail";
+import { DEFAULT_LOGIN_REDIRECT } from "@/auth/routes";
 import {
   generateVerificationToken,
   generateTwoFactorToken
-} from "@/src/utils/tokens";
+} from "@/utils/tokens";
 import {
   getTwoFactorConfirmationByUserId
-} from "@/src/data/two-factor-confirmation";
+} from "@/data/two-factor-confirmation";
 
 export const login = async (
   values: z.infer<typeof LoginSchema>,

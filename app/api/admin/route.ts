@@ -1,4 +1,4 @@
-import { currentRole } from "@/src/utils/auth";
+import { currentRole } from "@/utils/auth";
 import { UserRole } from "@prisma/client";
 import { NextResponse } from "next/server";
 

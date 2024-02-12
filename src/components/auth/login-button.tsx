@@ -6,8 +6,8 @@ import {
   Dialog,
   DialogContent,
   DialogTrigger,
-} from "@/src/components/ui/dialog";
-import { LoginForm } from "@/src/components/auth/login-form";
+} from "@/components/ui/dialog";
+import { LoginForm } from "@/components/auth/login-form";
 
 interface LoginButtonProps {
   children: React.ReactNode;

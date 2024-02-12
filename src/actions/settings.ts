@@ -3,13 +3,13 @@
 import * as z from "zod";
 import bcrypt from "bcryptjs";
 
-import { update } from "@/src/auth/auth";
-import { db } from "@/src/utils/db";
-import { SettingsSchema } from "@/src/schemas";
-import { getUserByEmail, getUserById } from "@/src/data/user";
-import { currentUser } from "@/src/utils/auth";
-import { generateVerificationToken } from "@/src/utils/tokens";
-import { sendVerificationEmail } from "@/src/utils/mail";
+import { update } from "@/auth/auth";
+import { db } from "@/utils/db";
+import { SettingsSchema } from "@/schemas";
+import { getUserByEmail, getUserById } from "@/data/user";
+import { currentUser } from "@/utils/auth";
+import { generateVerificationToken } from "@/utils/tokens";
+import { sendVerificationEmail } from "@/utils/mail";
 
 export const settings = async (
   values: z.infer<typeof SettingsSchema>

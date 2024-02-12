@@ -6,22 +6,22 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition, useState } from "react";
 import { useSession } from "next-auth/react";
 
-import { Switch } from "@/src/components/ui/switch";
+import { Switch } from "@/components/ui/switch";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/src/components/ui/select";
-import { SettingsSchema } from "@/src/schemas";
+} from "@/components/ui/select";
+import { SettingsSchema } from "@/schemas";
 import {
   Card,
   CardHeader,
   CardContent,
-} from "@/src/components/ui/card";
-import { Button } from "@/src/components/ui/button";
-import { settings } from "@/src/actions/settings";
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { settings } from "@/actions/settings";
 import {
   Form,
   FormField,
@@ -30,11 +30,11 @@ import {
   FormLabel,
   FormDescription,
   FormMessage,
-} from "@/src/components/ui/form";
-import { Input } from "@/src/components/ui/input";
-import { useCurrentUser } from "@/src/hooks/use-current-user";
-import { FormError } from "@/src/components/form-error";
-import { FormSuccess } from "@/src/components/form-success";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import { FormError } from "@/components/form-error";
+import { FormSuccess } from "@/components/form-success";
 import { UserRole } from "@prisma/client";
 
 const SettingsPage = () => {

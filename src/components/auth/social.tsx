@@ -5,8 +5,8 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { useSearchParams } from "next/navigation";
 
-import { Button } from "@/src/components/ui/button";
-import { DEFAULT_LOGIN_REDIRECT } from "@/src/auth/routes";
+import { Button } from "@/components/ui/button";
+import { DEFAULT_LOGIN_REDIRECT } from "@/auth/routes";
 
 export const Social = () => {
   const searchParams = useSearchParams();
