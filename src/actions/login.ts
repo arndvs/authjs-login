@@ -6,8 +6,8 @@ import { AuthError } from "next-auth";
 import { db } from "@/src/utils/db";
 import { signIn } from "@/src/auth/auth";
 import { LoginSchema } from "@/src/schemas";
-import { getUserByEmail } from "@/data/user";
-import { getTwoFactorTokenByEmail } from "@/data/two-factor-token";
+import { getUserByEmail } from "@/src/data/user";
+import { getTwoFactorTokenByEmail } from "@/src/data/two-factor-token";
 import {
   sendVerificationEmail,
   sendTwoFactorTokenEmail,
@@ -19,7 +19,7 @@ import {
 } from "@/src/utils/tokens";
 import {
   getTwoFactorConfirmationByUserId
-} from "@/data/two-factor-confirmation";
+} from "@/src/data/two-factor-confirmation";
 
 export const login = async (
   values: z.infer<typeof LoginSchema>,
