@@ -32,7 +32,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useCurrentUser } from "@/hooks/use-current-user";
+import { useCurrentUser } from "@/src/lib/hooks/use-current-user";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { UserRole } from "@prisma/client";
@@ -74,7 +74,7 @@ const SettingsPage = () => {
     });
   }
 
-  return ( 
+  return (
     <Card className="w-[600px]">
       <CardHeader>
         <p className="text-2xl font-semibold text-center">
@@ -83,8 +83,8 @@ const SettingsPage = () => {
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form 
-            className="space-y-6" 
+          <form
+            className="space-y-6"
             onSubmit={form.handleSubmit(onSubmit)}
           >
             <div className="space-y-4">
@@ -230,5 +230,5 @@ const SettingsPage = () => {
     </Card>
    );
 }
- 
+
 export default SettingsPage;
