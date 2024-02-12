@@ -1,6 +1,6 @@
 "use client";
 
-import { UserInfo } from "@/components/user-info";
+import { UserInfo } from "@/src/components/user-info";
 import { useCurrentUser } from "@/src/hooks/use-current-user";
 
 const ClientPage = () => {

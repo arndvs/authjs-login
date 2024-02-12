@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { Button } from "@/components/ui/button";
-import { UserButton } from "@/components/auth/user-button";
+import { Button } from "@/src/components/ui/button";
+import { UserButton } from "@/src/components/auth/user-button";
 
 export const Navbar = () => {
   const pathname = usePathname();
@@ -12,7 +12,7 @@ export const Navbar = () => {
   return (
     <nav className="bg-secondary flex justify-between items-center p-4 rounded-xl w-[600px] shadow-sm">
       <div className="flex gap-x-2">
-        <Button 
+        <Button
           asChild
           variant={pathname === "/server" ? "default" : "outline"}
         >
@@ -20,7 +20,7 @@ export const Navbar = () => {
             Server
           </Link>
         </Button>
-        <Button 
+        <Button
           asChild
           variant={pathname === "/client" ? "default" : "outline"}
         >
@@ -28,7 +28,7 @@ export const Navbar = () => {
             Client
           </Link>
         </Button>
-        <Button 
+        <Button
           asChild
           variant={pathname === "/admin" ? "default" : "outline"}
         >
@@ -36,7 +36,7 @@ export const Navbar = () => {
             Admin
           </Link>
         </Button>
-        <Button 
+        <Button
           asChild
           variant={pathname === "/settings" ? "default" : "outline"}
         >

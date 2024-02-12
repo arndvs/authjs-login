@@ -1,8 +1,8 @@
 import { Poppins } from "next/font/google";
 
 import { cn } from "@/src/utils/cn";
-import { Button } from "@/components/ui/button";
-import { LoginButton } from "@/components/auth/login-button";
+import { Button } from "@/src/components/ui/button";
+import { LoginButton } from "@/src/components/auth/login-button";
 
 const font = Poppins({
   subsets: ["latin"],
