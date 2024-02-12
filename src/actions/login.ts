@@ -4,7 +4,7 @@ import * as z from "zod";
 import { AuthError } from "next-auth";
 
 import { db } from "@/utils/db";
-import { signIn } from "@/auth/auth";
+import { signIn } from "@/authjs/auth";
 import { LoginSchema } from "@/schemas";
 import { getUserByEmail } from "@/data/user";
 import { getTwoFactorTokenByEmail } from "@/data/two-factor-token";
@@ -12,7 +12,7 @@ import {
   sendVerificationEmail,
   sendTwoFactorTokenEmail,
 } from "@/utils/mail";
-import { DEFAULT_LOGIN_REDIRECT } from "@/auth/routes";
+import { DEFAULT_LOGIN_REDIRECT } from "@/authjs/routes";
 import {
   generateVerificationToken,
   generateTwoFactorToken
