@@ -3,7 +3,7 @@
 import * as z from "zod";
 import { AuthError } from "next-auth";
 
-import { db } from "@/lib/db";
+import { db } from "@/src/lib/utils/db";
 import { signIn } from "@/src/lib/auth/auth";
 import { LoginSchema } from "@/schemas";
 import { getUserByEmail } from "@/data/user";
@@ -11,12 +11,12 @@ import { getTwoFactorTokenByEmail } from "@/data/two-factor-token";
 import {
   sendVerificationEmail,
   sendTwoFactorTokenEmail,
-} from "@/lib/mail";
+} from "@/src/lib/utils/mail";
 import { DEFAULT_LOGIN_REDIRECT } from "@/src/lib/auth/routes";
 import {
   generateVerificationToken,
   generateTwoFactorToken
-} from "@/lib/tokens";
+} from "@/src/lib/utils/tokens";
 import {
   getTwoFactorConfirmationByUserId
 } from "@/data/two-factor-confirmation";
