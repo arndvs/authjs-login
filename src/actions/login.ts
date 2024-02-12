@@ -4,15 +4,15 @@ import * as z from "zod";
 import { AuthError } from "next-auth";
 
 import { db } from "@/src/utils/db";
-import { signIn } from "@/src/lib/auth/auth";
-import { LoginSchema } from "@/src/lib/schemas";
+import { signIn } from "@/src/auth/auth";
+import { LoginSchema } from "@/src/schemas";
 import { getUserByEmail } from "@/data/user";
 import { getTwoFactorTokenByEmail } from "@/data/two-factor-token";
 import {
   sendVerificationEmail,
   sendTwoFactorTokenEmail,
 } from "@/src/utils/mail";
-import { DEFAULT_LOGIN_REDIRECT } from "@/src/lib/auth/routes";
+import { DEFAULT_LOGIN_REDIRECT } from "@/src/auth/routes";
 import {
   generateVerificationToken,
   generateTwoFactorToken

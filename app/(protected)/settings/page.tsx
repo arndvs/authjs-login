@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { SettingsSchema } from "@/src/lib/schemas";
+import { SettingsSchema } from "@/src/schemas";
 import {
   Card,
   CardHeader,
@@ -32,7 +32,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useCurrentUser } from "@/src/lib/hooks/use-current-user";
+import { useCurrentUser } from "@/src/hooks/use-current-user";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { UserRole } from "@prisma/client";

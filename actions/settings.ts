@@ -3,9 +3,9 @@
 import * as z from "zod";
 import bcrypt from "bcryptjs";
 
-import { update } from "@/src/lib/auth/auth";
+import { update } from "@/src/auth/auth";
 import { db } from "@/src/utils/db";
-import { SettingsSchema } from "@/src/lib/schemas";
+import { SettingsSchema } from "@/src/schemas";
 import { getUserByEmail, getUserById } from "@/data/user";
 import { currentUser } from "@/src/utils/auth";
 import { generateVerificationToken } from "@/src/utils/tokens";
