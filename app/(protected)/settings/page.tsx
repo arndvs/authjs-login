@@ -21,7 +21,7 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { settings } from "@/actions/settings";
+import { settings } from "@/src/actions/settings";
 import {
   Form,
   FormField,
