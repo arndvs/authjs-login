@@ -3,17 +3,24 @@ npm run dev
 
 ```
 
-Run Prisma Studio
+Generate the Prisma collections based on schema.prisma
 
 ```bash
-npx prisma studio
+npx prisma generate
 
 ```
 
-Push the schema:
+Push the collections to the db
 
 ```bash
-prisma db push
+npx prisma db push
+
+```
+
+Run Prisma Studio to view the current prisma database
+
+```bash
+npx prisma studio
 
 ```
 
