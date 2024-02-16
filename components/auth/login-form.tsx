@@ -14,7 +14,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,  
+  FormMessage,
 } from "@/components/ui/form";
 import { CardWrapper } from "@/components/auth/card-wrapper"
 import { Button } from "@/components/ui/button";
@@ -23,7 +23,11 @@ import { FormSuccess } from "@/components/form-success";
 import { login } from "@/actions/login";
 
 export const LoginForm = () => {
+
+  // The useSearchParams hook returns an object containing the query parameters of the current URL.
   const searchParams = useSearchParams();
+  // The get method of the URLSearchParams object returns the first value associated with the given search parameter.
+  // get the OAuthAccountNotLinked error from the URL
   const urlError = searchParams.get("error") === "OAuthAccountNotLinked"
     ? "Email already in use with different provider!"
     : "";
@@ -43,7 +47,7 @@ export const LoginForm = () => {
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
     setError("");
     setSuccess("");
-    
+
     startTransition(() => {
       login(values)
         .then((data) => {
@@ -62,7 +66,7 @@ export const LoginForm = () => {
       showSocial
     >
       <Form {...form}>
-        <form 
+        <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-6"
         >

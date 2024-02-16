@@ -12,11 +12,19 @@ export const {
   signIn,
   signOut,
 } = NextAuth({
+
+  // Auth.js Pages: https://next-auth.js.org/configuration/pages
+  // NextAuth.js automatically creates simple, unbranded authentication pages for handling Sign in, Sign out, Email Verification and displaying error messages. The options displayed on the sign-up page are automatically generated based on the providers specified in the options passed to NextAuth.js.
   pages: {
     signIn: "/auth/login",
-    error: "/auth/error",
+    error: "/auth/error", // Error code passed in query string as ?error=
   },
+  // Auth.js Events: https://next-auth.js.org/configuration/events
+  // Events are asynchronous functions that do not return a response, they are useful for audit logs / reporting
+  // or handling any other side-effects. You can specify a handler for any of these events below, for debugging
+  // or for an audit log.
   events: {
+    // user used OAuth provider to create account and sign in
     async linkAccount({ user }) {
       await db.user.update({
         where: { id: user.id },
@@ -24,6 +32,10 @@ export const {
       })
     }
   },
+
+  // Auth.js Callbacks: https://next-auth.js.org/configuration/callbacks
+  // Callbacks are asynchronous functions that return a response, they are useful for customising logic,
+  //  implement access controls without a database and to integrate with external databases or APIs.
   callbacks: {
 
     // returns the JWT that will be available to the client
