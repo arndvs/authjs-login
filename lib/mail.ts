@@ -6,6 +6,8 @@ export const sendVerificationEmail = async (
   email: string,
   token: string
 ) => {
+
+  // append the verification token to the confirmation link
   const confirmLink = `http://localhost:3000/auth/new-verification?token=${token}`;
 
   await resend.emails.send({

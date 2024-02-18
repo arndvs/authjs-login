@@ -5,6 +5,7 @@
  */
 export const publicRoutes = [
   "/",
+  "/auth/new-verification" // both logged in and out users need access to this route
 ];
 
 /**
