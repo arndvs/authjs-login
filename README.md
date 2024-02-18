@@ -3,14 +3,14 @@ npm run dev
 
 ```
 
-Generate the Prisma collections based on schema.prisma
+Add new primsa fields in schema to node modules
 
 ```bash
 npx prisma generate
 
 ```
 
-Push the collections to the db
+Push fields to the db
 
 ```bash
 npx prisma db push

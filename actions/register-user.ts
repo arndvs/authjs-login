@@ -9,7 +9,7 @@ import { getUserByEmail } from "@/data/user";
 import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "@/lib/mail";
 
-export const register = async (values: z.infer<typeof RegisterSchema>) => {
+export const registerUser = async (values: z.infer<typeof RegisterSchema>) => {
   const validatedFields = RegisterSchema.safeParse(values);
 
   if (!validatedFields.success) {

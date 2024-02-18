@@ -1,5 +1,6 @@
 import * as z from "zod";
 
+// login form schema
 export const LoginSchema = z.object({
   email: z.string().email({
     message: "Email is required",
@@ -9,6 +10,7 @@ export const LoginSchema = z.object({
   }),
 });
 
+// register new user form schema
 export const RegisterSchema = z.object({
   email: z.string().email({
     message: "Email is required",
@@ -20,3 +22,10 @@ export const RegisterSchema = z.object({
     message: "Name is required",
   }),
 });
+
+// reset password form schema
+export const ResetSchema = z.object({
+    email: z.string().email({
+      message: "Email is required",
+    }),
+  });

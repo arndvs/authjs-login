@@ -3,10 +3,9 @@
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { useState, useTransition } from "react";
-import { useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
-import { LoginSchema } from "@/schemas";
+
+import { ResetSchema } from "@/schemas";
 import { Input } from "@/components/ui/input";
 import {
   Form,
@@ -20,36 +19,26 @@ import { CardWrapper } from "@/components/auth/card-wrapper"
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
-import { loginUser } from "@/actions/login-user";
+import { resetEmail } from "@/actions/reset-email";
 
-export const LoginForm = () => {
-
-  // The useSearchParams hook returns an object containing the query parameters of the current URL.
-  const searchParams = useSearchParams();
-  // The get method of the URLSearchParams object returns the first value associated with the given search parameter.
-  // get the OAuthAccountNotLinked error from the URL
-  const urlError = searchParams.get("error") === "OAuthAccountNotLinked"
-    ? "Email already in use with different provider!"
-    : "";
-
+export const ResetForm = () => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
+  const form = useForm<z.infer<typeof ResetSchema>>({
+    resolver: zodResolver(ResetSchema),
     defaultValues: {
       email: "",
-      password: "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+  const onSubmit = (values: z.infer<typeof ResetSchema>) => {
     setError("");
     setSuccess("");
 
     startTransition(() => {
-        loginUser(values)
+        resetEmail(values)
         .then((data) => {
           setError(data?.error);
           setSuccess(data?.success);
@@ -59,10 +48,9 @@ export const LoginForm = () => {
 
   return (
     <CardWrapper
-      headerLabel="Welcome back"
-      backButtonLabel="Don't have an account?"
-      backButtonHref="/auth/register"
-      showSocial
+      headerLabel="Forgot your password?"
+      backButtonLabel="Back to login"
+      backButtonHref="/auth/login"
     >
       <Form {...form}>
         <form
@@ -88,43 +76,15 @@ export const LoginForm = () => {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      disabled={isPending}
-                      placeholder="******"
-                      type="password"
-                    />
-                  </FormControl>
-                  <Button
-                    size="sm"
-                    variant="link"
-                    asChild
-                    className="px-0 font-normal"
-                  >
-                    <Link href="/auth/reset">
-                      Forgot password?
-                    </Link>
-                  </Button>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
           </div>
-          <FormError message={error || urlError} />
+          <FormError message={error} />
           <FormSuccess message={success} />
           <Button
             disabled={isPending}
             type="submit"
             className="w-full"
           >
-            Login
+            Send reset password email
           </Button>
         </form>
       </Form>
