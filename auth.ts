@@ -38,6 +38,21 @@ export const {
   //  implement access controls without a database and to integrate with external databases or APIs.
   callbacks: {
 
+    async signIn({user, account}) {
+
+        // Allow Oauth without email verification // NOTE: can vary based on providers allowed
+        if (account?.provider !== 'credentials') return true;
+
+        const existingUser = await getUserById(user.id);
+
+        // Prevent sign in if email is not verified
+        if (!existingUser?.emailVerified)  return false;
+
+        //TODO: Add 2FA Check
+
+        return true;
+    },
+
     // returns the JWT that will be available to the client
     async jwt({ token }) {
 
