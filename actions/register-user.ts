@@ -4,13 +4,13 @@ import * as z from "zod";
 import bcrypt from "bcryptjs";
 
 import { db } from "@/lib/db";
-import { RegisterSchema } from "@/schemas";
+import { RegisterUserSchema } from "@/schemas";
 import { getUserByEmail } from "@/data/user";
 import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "@/lib/mail";
 
-export const registerUser = async (values: z.infer<typeof RegisterSchema>) => {
-  const validatedFields = RegisterSchema.safeParse(values);
+export const registerUser = async (values: z.infer<typeof RegisterUserSchema>) => {
+  const validatedFields = RegisterUserSchema.safeParse(values);
 
   if (!validatedFields.success) {
     return { error: "Invalid fields!" };

@@ -4,14 +4,14 @@ import * as z from "zod";
 import { AuthError } from "next-auth";
 
 import { signIn } from "@/auth";
-import { LoginSchema } from "@/schemas";
+import { LoginUserSchema } from "@/schemas";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { getUserByEmail } from "@/data/user";
 import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "@/lib/mail";
 
-export const loginUser = async (values: z.infer<typeof LoginSchema>) => {
-  const validatedFields = LoginSchema.safeParse(values);
+export const loginUser = async (values: z.infer<typeof LoginUserSchema>) => {
+  const validatedFields = LoginUserSchema.safeParse(values);
 
   if (!validatedFields.success) {
     return { error: "Invalid fields!" };

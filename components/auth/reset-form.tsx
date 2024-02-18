@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { ResetSchema } from "@/schemas";
+import { ResetEmailSchema } from "@/schemas";
 import { Input } from "@/components/ui/input";
 import {
   Form,
@@ -26,14 +26,14 @@ export const ResetForm = () => {
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<z.infer<typeof ResetSchema>>({
-    resolver: zodResolver(ResetSchema),
+  const form = useForm<z.infer<typeof ResetEmailSchema>>({
+    resolver: zodResolver(ResetEmailSchema),
     defaultValues: {
       email: "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof ResetSchema>) => {
+  const onSubmit = (values: z.infer<typeof ResetEmailSchema>) => {
     setError("");
     setSuccess("");
 

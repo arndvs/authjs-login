@@ -1,7 +1,7 @@
 import * as z from "zod";
 
-// login form schema
-export const LoginSchema = z.object({
+// login user form schema
+export const LoginUserSchema = z.object({
   email: z.string().email({
     message: "Email is required",
   }),
@@ -10,8 +10,16 @@ export const LoginSchema = z.object({
   }),
 });
 
+// set new user password form schema
+export const NewPasswordSchema = z.object({
+    password: z.string().min(6, {
+      message: "Minimum of 6 characters required",
+    }),
+  });
+
+
 // register new user form schema
-export const RegisterSchema = z.object({
+export const RegisterUserSchema = z.object({
   email: z.string().email({
     message: "Email is required",
   }),
@@ -23,8 +31,8 @@ export const RegisterSchema = z.object({
   }),
 });
 
-// reset password form schema
-export const ResetSchema = z.object({
+// reset user email form schema
+export const ResetEmailSchema = z.object({
     email: z.string().email({
       message: "Email is required",
     }),
