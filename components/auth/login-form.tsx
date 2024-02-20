@@ -32,6 +32,7 @@ export const LoginForm = () => {
     ? "Email already in use with different provider!"
     : "";
 
+  const [showTwoFactor, setShowTwoFactor] = useState(false);
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
@@ -51,9 +52,23 @@ export const LoginForm = () => {
     startTransition(() => {
         loginUser(values)
         .then((data) => {
-          setError(data?.error);
-          setSuccess(data?.success);
-        });
+            // if there is an error, reset the form and set the error state
+            if (data?.error) {
+                form.reset();
+                setError(data.error);
+              }
+              // if there is a success message, reset the form and set the success state
+              if (data?.success) {
+                form.reset();
+                setSuccess(data.success);
+              }
+              // if 2FA is enabled, set the showTwoFactor state
+              if (data?.twoFactor) {
+                setShowTwoFactor(true);
+              }
+            })
+            // if there is an error, set the error state
+            .catch(() => setError("Something went wrong"));
     });
   };
 
@@ -70,6 +85,28 @@ export const LoginForm = () => {
           className="space-y-6"
         >
           <div className="space-y-4">
+          {showTwoFactor && (
+            //TODO: setup ability clear 2FA code if 'invalid credentials' or 'expired token' to return to the login form
+              <FormField
+                control={form.control}
+                name="code"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Two Factor Code</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        disabled={isPending}
+                        placeholder="123456"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
+          {!showTwoFactor && (
+              <>
             <FormField
               control={form.control}
               name="email"
@@ -116,6 +153,8 @@ export const LoginForm = () => {
                 </FormItem>
               )}
             />
+            </>
+            )}
           </div>
           <FormError message={error || urlError} />
           <FormSuccess message={success} />
@@ -124,7 +163,7 @@ export const LoginForm = () => {
             type="submit"
             className="w-full"
           >
-            Login
+            {showTwoFactor ? "Confirm" : "Login"}
           </Button>
         </form>
       </Form>

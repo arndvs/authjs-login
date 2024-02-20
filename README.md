@@ -10,6 +10,13 @@ npx prisma generate
 
 ```
 
+Remove everything in the db
+
+```bash
+npx prisma migrate reset
+
+```
+
 Push fields to the db
 
 ```bash
