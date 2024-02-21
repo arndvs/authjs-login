@@ -11,7 +11,9 @@ export const generatePasswordResetToken = async (email: string) => {
 
     // get the token from the uuidv4 function
     const token = uuidv4();
-    const expires = new Date(new Date().getTime() + 3600 * 1000);
+
+    // expire the 2FA token in 5 minutes
+    const expires = new Date(new Date().getTime() + 5 * 60 * 1000);
 
     // check if there is an existing token for the email
     const existingToken = await getPasswordResetTokenByEmail(email);
