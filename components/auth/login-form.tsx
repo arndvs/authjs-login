@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useState, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-
+import Link from "next/link";
 import { LoginSchema } from "@/schemas";
 import { Input } from "@/components/ui/input";
 import {
@@ -14,7 +14,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,  
+  FormMessage,
 } from "@/components/ui/form";
 import { CardWrapper } from "@/components/auth/card-wrapper"
 import { Button } from "@/components/ui/button";
@@ -23,11 +23,16 @@ import { FormSuccess } from "@/components/form-success";
 import { login } from "@/actions/login";
 
 export const LoginForm = () => {
+
+  // The useSearchParams hook returns an object containing the query parameters of the current URL.
   const searchParams = useSearchParams();
+  // The get method of the URLSearchParams object returns the first value associated with the given search parameter.
+  // get the OAuthAccountNotLinked error from the URL
   const urlError = searchParams.get("error") === "OAuthAccountNotLinked"
     ? "Email already in use with different provider!"
     : "";
 
+  const [showTwoFactor, setShowTwoFactor] = useState(false);
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
@@ -43,14 +48,27 @@ export const LoginForm = () => {
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
     setError("");
     setSuccess("");
-    
+
     startTransition(() => {
-      login(values)
+        login(values)
         .then((data) => {
-          setError(data?.error);
-          // TODO: Add when we add 2FA
-          // setSuccess(data?.success);
-        });
+            // if there is an error, reset the form and set the error state
+            if (data?.error) {
+                form.reset();
+                setError(data.error);
+              }
+              // if there is a success message, reset the form and set the success state
+              if (data?.success) {
+                form.reset();
+                setSuccess(data.success);
+              }
+              // if 2FA is enabled, set the showTwoFactor state
+              if (data?.twoFactor) {
+                setShowTwoFactor(true);
+              }
+            })
+            // if there is an error, set the error state
+            .catch(() => setError("Something went wrong"));
     });
   };
 
@@ -62,11 +80,33 @@ export const LoginForm = () => {
       showSocial
     >
       <Form {...form}>
-        <form 
+        <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-6"
         >
           <div className="space-y-4">
+          {showTwoFactor && (
+            //TODO: setup ability clear 2FA code if 'invalid credentials' or 'expired token' to return to the login form
+              <FormField
+                control={form.control}
+                name="code"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Two Factor Code</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        disabled={isPending}
+                        placeholder="123456"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
+          {!showTwoFactor && (
+              <>
             <FormField
               control={form.control}
               name="email"
@@ -99,10 +139,22 @@ export const LoginForm = () => {
                       type="password"
                     />
                   </FormControl>
+                  <Button
+                    size="sm"
+                    variant="link"
+                    asChild
+                    className="px-0 font-normal"
+                  >
+                    <Link href="/auth/reset">
+                      Forgot password?
+                    </Link>
+                  </Button>
                   <FormMessage />
                 </FormItem>
               )}
             />
+            </>
+            )}
           </div>
           <FormError message={error || urlError} />
           <FormSuccess message={success} />
@@ -111,7 +163,7 @@ export const LoginForm = () => {
             type="submit"
             className="w-full"
           >
-            Login
+            {showTwoFactor ? "Confirm" : "Login"}
           </Button>
         </form>
       </Form>

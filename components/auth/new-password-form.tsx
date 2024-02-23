@@ -1,11 +1,12 @@
 "use client";
 
 import * as z from "zod";
-import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
+import { useState, useTransition } from "react";
+import { useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { RegisterSchema } from "@/schemas";
+import { NewPasswordSchema } from "@/schemas";
 import { Input } from "@/components/ui/input";
 import {
   Form,
@@ -19,41 +20,50 @@ import { CardWrapper } from "@/components/auth/card-wrapper"
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
-import { register } from "@/actions/register";
+import { newPassword } from "@/actions/new-password";
 
-export const RegisterForm = () => {
+export const NewPasswordForm = () => {
+
+   // Get search params from the URL
+  const searchParams = useSearchParams();
+  // Get the token from the search params
+  const token = searchParams.get("token");
+
+  // Set the error, success and pending states
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
-  const [isPending, startTransition] = useTransition();
+  const [isPending, startTransition] = useTransition(); // Add useTransition hook
 
-  const form = useForm<z.infer<typeof RegisterSchema>>({
-    resolver: zodResolver(RegisterSchema),
+    // Create a form with react-hook-form
+  const form = useForm<z.infer<typeof NewPasswordSchema>>({
+    resolver: zodResolver(NewPasswordSchema),
     defaultValues: {
-      email: "",
       password: "",
-      name: "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
+  // when the form is submitted, call the newPassword function
+  const onSubmit = (values: z.infer<typeof NewPasswordSchema>) => {
     setError("");
     setSuccess("");
 
+    // Start the password reset transition
     startTransition(() => {
-        register(values)
+        // Call the newPassword function
+      newPassword(values, token)
+
         .then((data) => {
-          setError(data.error);
-          setSuccess(data.success);
+          setError(data?.error);
+          setSuccess(data?.success);
         });
     });
   };
 
   return (
     <CardWrapper
-      headerLabel="Create an account"
-      backButtonLabel="Already have an account?"
+      headerLabel="Enter a new password"
+      backButtonLabel="Back to login"
       backButtonHref="/auth/login"
-      showSocial
     >
       <Form {...form}>
         <form
@@ -61,41 +71,6 @@ export const RegisterForm = () => {
           className="space-y-6"
         >
           <div className="space-y-4">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      disabled={isPending}
-                      placeholder="John Doe"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      disabled={isPending}
-                      placeholder="john.doe@example.com"
-                      type="email"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
             <FormField
               control={form.control}
               name="password"
@@ -122,7 +97,7 @@ export const RegisterForm = () => {
             type="submit"
             className="w-full"
           >
-            Create an account
+            Reset password
           </Button>
         </form>
       </Form>
