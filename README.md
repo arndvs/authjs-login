@@ -3,17 +3,17 @@ npm run dev
 
 ```
 
-Add new primsa fields in schema to node modules
-
-```bash
-npx prisma generate
-
-```
-
 Remove everything in the db
 
 ```bash
 npx prisma migrate reset
+
+```
+
+Add new primsa fields in schema to node modules
+
+```bash
+npx prisma generate
 
 ```
 
