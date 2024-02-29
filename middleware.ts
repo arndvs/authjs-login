@@ -29,8 +29,21 @@ export default auth((req) => {
     return null;
   }
 
+  // if not logged in and not public route, redirect to login
   if (!isLoggedIn && !isPublicRoute) {
-    return Response.redirect(new URL("/auth/login", nextUrl));
+    // redirect to login with callback url
+    let callbackUrl = nextUrl.pathname;
+    // add search params if they exist
+    if (nextUrl.search) {
+      callbackUrl += nextUrl.search;
+    }
+    // encode callback url
+    const encodedCallbackUrl = encodeURIComponent(callbackUrl);
+    // redirect to login with callback url
+    return Response.redirect(new URL(
+      `/auth/login?callbackUrl=${encodedCallbackUrl}`,
+      nextUrl
+    ));
   }
 
   return null;

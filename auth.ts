@@ -6,12 +6,14 @@ import { db } from "@/lib/db";
 import authConfig from "@/auth.config";
 import { getUserById } from "@/data/user";
 import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
+import { getAccountByUserId } from "./data/account";
 
 export const {
   handlers: { GET, POST },
   auth,
   signIn,
   signOut,
+  update,
 } = NextAuth({
 
   // Auth.js Pages: https://next-auth.js.org/configuration/pages
@@ -80,8 +82,19 @@ export const {
         // if the user doesn't exist, return the token as is
         if (!existingUser) return token;
 
-        // assign the role to the token
+
+        // get an existing account from the database
+        const existingAccount = await getAccountByUserId(
+            // find the account by the user ID
+            existingUser.id
+          );
+
+        token.isOAuth = !!existingAccount; //
+        // assign the role, name, email and 2FA status to the token
         token.role = existingUser.role;
+        token.name = existingUser.name;
+        token.email = existingUser.email;
+        token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
 
         return token;
       },
@@ -96,9 +109,22 @@ export const {
         session.user.id = token.sub;
       }
 
-      // if the user has a role, assign the role to the session
+      // if the session user has a role
       if (token.role && session.user) {
+        // assign the role to the session
         session.user.role = token.role as UserRole;
+      }
+
+      // if the session user
+      if (session.user) {
+        // has 2FA enabled, assign the 2FA status to the session
+        session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean;
+      }
+
+      if (session.user) {
+        session.user.name = token.name;
+        session.user.email = token.email;
+        session.user.isOAuth = token.isOAuth as boolean;
       }
 
       return session;
