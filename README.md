@@ -34,3 +34,4 @@ npx prisma studio
 More Prisma Commands: https://www.prisma.io/docs/orm/reference/prisma-cli-reference#studio
 
 Google OAuth: https://console.cloud.google.com/apis/credentials/oauthclient/
+Github: OAuth https://github.com/settings/developers
