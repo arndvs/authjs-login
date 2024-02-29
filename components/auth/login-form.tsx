@@ -26,6 +26,10 @@ export const LoginForm = () => {
 
   // The useSearchParams hook returns an object containing the query parameters of the current URL.
   const searchParams = useSearchParams();
+
+  const callbackUrl = searchParams.get("callbackUrl");
+
+
   // The get method of the URLSearchParams object returns the first value associated with the given search parameter.
   // get the OAuthAccountNotLinked error from the URL
   const urlError = searchParams.get("error") === "OAuthAccountNotLinked"
@@ -50,7 +54,7 @@ export const LoginForm = () => {
     setSuccess("");
 
     startTransition(() => {
-        login(values)
+        login(values, callbackUrl)
         .then((data) => {
             // if there is an error, reset the form and set the error state
             if (data?.error) {
