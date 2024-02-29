@@ -45,15 +45,12 @@ const SettingsPage = () => {
   const [success, setSuccess] = useState<string | undefined>();
   const { update } = useSession();
 
-  // useTransition to set isPending to true while the form is submitting
+  // useTransition to set isPending to true while the form is submitting, used to disable the form fields and show a loading state
   const [isPending, startTransition] = useTransition();
-
-
 
   const form = useForm<z.infer<typeof SettingsSchema>>({
     resolver: zodResolver(SettingsSchema),
     defaultValues: {
-
       // pass undefined to the form fields to avoid updating to empty string
       password: undefined,
       newPassword: undefined,
@@ -116,6 +113,35 @@ const SettingsPage = () => {
                   </FormItem>
                 )}
               />
+               <FormField
+                control={form.control}
+                name="role"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Role</FormLabel>
+                    <Select
+                      disabled={isPending}
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a role" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value={UserRole.ADMIN}>
+                          Admin
+                        </SelectItem>
+                        <SelectItem value={UserRole.USER}>
+                          User
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               {user?.isOAuth === false && (
                 <>
                   <FormField
@@ -141,7 +167,7 @@ const SettingsPage = () => {
                     name="password"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Password</FormLabel>
+                        <FormLabel>Current Password</FormLabel>
                         <FormControl>
                           <Input
                             {...field}
@@ -172,39 +198,7 @@ const SettingsPage = () => {
                       </FormItem>
                     )}
                   />
-                </>
-              )}
-              <FormField
-                control={form.control}
-                name="role"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Role</FormLabel>
-                    <Select
-                      disabled={isPending}
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a role" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value={UserRole.ADMIN}>
-                          Admin
-                        </SelectItem>
-                        <SelectItem value={UserRole.USER}>
-                          User
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              {user?.isOAuth === false && (
-                <FormField
+                  <FormField
                   control={form.control}
                   name="isTwoFactorEnabled"
                   render={({ field }) => (
@@ -225,12 +219,12 @@ const SettingsPage = () => {
                     </FormItem>
                   )}
                 />
+                </>
               )}
             </div>
             <FormError message={error} />
             <FormSuccess message={success} />
             <Button
-                // disable the button when the form is pending
               disabled={isPending}
               type="submit"
             >

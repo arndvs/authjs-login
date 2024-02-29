@@ -3,7 +3,7 @@
 import * as z from "zod";
 import bcrypt from "bcryptjs";
 
-// import { update } from "@/auth";
+import { update } from "@/auth";
 import { db } from "@/lib/db";
 import { SettingsSchema } from "@/schemas";
 import { getUserByEmail, getUserById } from "@/data/user";
@@ -32,51 +32,66 @@ export const settings = async (
     return { error: "Unauthorized" }
   }
 
-//   if (user.isOAuth) {
-//     values.email = undefined;
-//     values.password = undefined;
-//     values.newPassword = undefined;
-//     values.isTwoFactorEnabled = undefined;
-//   }
+  // if the user is an OAuth user, remove the email, password, and new password fields
+  // OAuth users can't modify these fields
+  if (user.isOAuth) {
+    values.email = undefined;
+    values.password = undefined;
+    values.newPassword = undefined;
+    values.isTwoFactorEnabled = undefined;
+  }
 
-//   if (values.email && values.email !== user.email) {
-//     const existingUser = await getUserByEmail(values.email);
+  // if the user is not an OAuth user and the email is provided and the email is different from the current email
+  if (values.email && values.email !== user.email) {
+    // get existing user by email
+    const existingUser = await getUserByEmail(values.email);
 
-//     if (existingUser && existingUser.id !== user.id) {
-//       return { error: "Email already in use!" }
-//     }
+    // if the user exists and the user id is different from the current user id
+    if (existingUser && existingUser.id !== user.id) {
+        // return error
+      return { error: "Email already in use!" }
+    }
 
-//     const verificationToken = await generateVerificationToken(
-//       values.email
-//     );
-//     await sendVerificationEmail(
-//       verificationToken.email,
-//       verificationToken.token,
-//     );
+    // generate a verification token
+    const verificationToken = await generateVerificationToken(
+        // use the new email
+      values.email
+    );
+    // send the verification email
+    await sendVerificationEmail(
+      verificationToken.email,
+      verificationToken.token,
+    );
 
-//     return { success: "Verification email sent!" };
-//   }
+    return { success: "Verification email sent!" };
+  }
 
-//   if (values.password && values.newPassword && dbUser.password) {
-//     const passwordsMatch = await bcrypt.compare(
-//       values.password,
-//       dbUser.password,
-//     );
+  // if the user is not an OAuth user and the password and new password are provided
+  if (values.password && values.newPassword && dbUser.password) {
+    // compare the password with the hashed password from the database
+    const passwordsMatch = await bcrypt.compare(
+      values.password,
+      dbUser.password,
+    );
 
-//     if (!passwordsMatch) {
-//       return { error: "Incorrect password!" };
-//     }
+    // if the passwords don't match return error
+    if (!passwordsMatch) {
+      return { error: "Incorrect password!" };
+    }
 
-//     const hashedPassword = await bcrypt.hash(
-//       values.newPassword,
-//       10,
-//     );
-//     values.password = hashedPassword;
-//     values.newPassword = undefined;
-//   }
+    // hash the new password
+    const hashedPassword = await bcrypt.hash(
+      values.newPassword,
+      10,
+    );
+    // update the values with the hashed password
+    values.password = hashedPassword;
+    // remove the new password from the values
+    values.newPassword = undefined;
+  }
 
-    // get the user from the database and update the values
-//   const updatedUser =
+  // get the user from the database and update the values
+  const updatedUser =
   await db.user.update({
     // find the user by id
     where: { id: dbUser.id },
@@ -86,14 +101,14 @@ export const settings = async (
     }
   });
 
-//   update({
-//     user: {
-//       name: updatedUser.name,
-//       email: updatedUser.email,
-//       isTwoFactorEnabled: updatedUser.isTwoFactorEnabled,
-//       role: updatedUser.role,
-//     }
-//   });
+  update({
+    user: {
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isTwoFactorEnabled: updatedUser.isTwoFactorEnabled,
+      role: updatedUser.role,
+    }
+  });
 
   return { success: "Settings Updated!" }
 }

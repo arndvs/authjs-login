@@ -42,8 +42,9 @@ export const ResetEmailSchema = z.object({
   });
 
 // update user settings form schema
+ // fields are optional because user can update only one field or multiple
 export const SettingsSchema = z.object({
-  // fields are optional because user can update only one field or multiple
+
   name: z.optional(z.string()),
   isTwoFactorEnabled: z.optional(z.boolean()),
   role: z.enum([UserRole.ADMIN, UserRole.USER]),
@@ -51,23 +52,28 @@ export const SettingsSchema = z.object({
   password: z.optional(z.string().min(6)),
   newPassword: z.optional(z.string().min(6)),
 })
-//   .refine((data) => {
-//     if (data.password && !data.newPassword) {
-//       return false;
-//     }
+// zod refine method to add custom validation to the schema
+// password update is optional, but if new password is provided, password is required
+  .refine((data) => {
+    if (data.password && !data.newPassword) {
+      return false;
+    }
 
-//     return true;
-//   }, {
-//     message: "New password is required!",
-//     path: ["newPassword"]
-//   })
-//   .refine((data) => {
-//     if (data.newPassword && !data.password) {
-//       return false;
-//     }
+    return true;
+  }, {
+    message: "New password is required!",
+    path: ["newPassword"]
+  })
+  // new password is optional, but if password is provided, new password is required
+  .refine((data) => {
+    if (data.newPassword && !data.password) {
+      return false;
+    }
 
-//     return true;
-//   }, {
-//     message: "Password is required!",
-//     path: ["password"]
-//   })
+    return true;
+  },
+  // custom error message and path to the field
+  {
+    message: "Password is required!",
+    path: ["password"]
+  })
