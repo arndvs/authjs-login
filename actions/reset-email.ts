@@ -2,15 +2,15 @@
 
 import * as z from "zod";
 
-import { ResetEmailSchema } from "@/schemas";
 import { getUserByEmail } from "@/data/user";
 import { sendPasswordResetEmail } from "@/lib/mail";
 import { generatePasswordResetToken } from "@/lib/tokens";
+import { ResetSchema } from "@/schemas";
 
-export const resetEmail = async (values: z.infer<typeof ResetEmailSchema>) => {
+export const resetEmail = async (values: z.infer<typeof ResetSchema>) => {
 
     // Validate the input fields using the ResetEmailSchema
-  const validatedFields = ResetEmailSchema.safeParse(values);
+  const validatedFields = ResetSchema.safeParse(values);
 
     // If the input fields are invalid, return an error
   if (!validatedFields.success) {
