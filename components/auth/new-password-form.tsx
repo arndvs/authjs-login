@@ -23,41 +23,40 @@ import { FormSuccess } from "@/components/form-success";
 import { newPassword } from "@/actions/new-password";
 
 export const NewPasswordForm = () => {
-
    // Get search params from the URL
-  const searchParams = useSearchParams();
-  // Get the token from the search params
-  const token = searchParams.get("token");
+   const searchParams = useSearchParams();
+   // Get the token from the search params
+   const token = searchParams.get("token");
 
-  // Set the error, success and pending states
-  const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
-  const [isPending, startTransition] = useTransition(); // Add useTransition hook
+   // Set the error, success and pending states
+   const [error, setError] = useState<string | undefined>("");
+   const [success, setSuccess] = useState<string | undefined>("");
+   const [isPending, startTransition] = useTransition(); // Add useTransition hook
 
-    // Create a form with react-hook-form
-  const form = useForm<z.infer<typeof NewPasswordSchema>>({
-    resolver: zodResolver(NewPasswordSchema),
-    defaultValues: {
-      password: "",
-    },
-  });
+     // Create a form with react-hook-form
+   const form = useForm<z.infer<typeof NewPasswordSchema>>({
+     resolver: zodResolver(NewPasswordSchema),
+     defaultValues: {
+       password: "",
+     },
+   });
 
-  // when the form is submitted, call the newPassword function
-  const onSubmit = (values: z.infer<typeof NewPasswordSchema>) => {
-    setError("");
-    setSuccess("");
+   // when the form is submitted, call the newPassword function
+   const onSubmit = (values: z.infer<typeof NewPasswordSchema>) => {
+     setError("");
+     setSuccess("");
 
-    // Start the password reset transition
-    startTransition(() => {
-        // Call the newPassword function
-      newPassword(values, token)
+     // Start the password reset transition
+     startTransition(() => {
+         // Call the newPassword function
+       newPassword(values, token)
 
-        .then((data) => {
-          setError(data?.error);
-          setSuccess(data?.success);
-        });
-    });
-  };
+         .then((data) => {
+           setError(data?.error);
+           setSuccess(data?.success);
+         });
+     });
+   };
 
   return (
     <CardWrapper

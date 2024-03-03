@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import * as z from "zod";
 import { useForm } from "react-hook-form";
@@ -38,49 +38,47 @@ import { FormSuccess } from "@/components/form-success";
 import { UserRole } from "@prisma/client";
 
 const SettingsPage = () => {
-
   const user = useCurrentUser();
 
   const [error, setError] = useState<string | undefined>();
   const [success, setSuccess] = useState<string | undefined>();
   const { update } = useSession();
+   // useTransition to set isPending to true while the form is submitting, used to disable the form fields and show a loading state
+   const [isPending, startTransition] = useTransition();
 
-  // useTransition to set isPending to true while the form is submitting, used to disable the form fields and show a loading state
-  const [isPending, startTransition] = useTransition();
+   const form = useForm<z.infer<typeof SettingsSchema>>({
+     resolver: zodResolver(SettingsSchema),
+     defaultValues: {
+       // pass undefined to the form fields to avoid updating to empty string
+       password: undefined,
+       newPassword: undefined,
+       name: user?.name || undefined,
+       email: user?.email || undefined,
+       role: user?.role || undefined,
+       isTwoFactorEnabled: user?.isTwoFactorEnabled || undefined,
+     }
+   });
 
-  const form = useForm<z.infer<typeof SettingsSchema>>({
-    resolver: zodResolver(SettingsSchema),
-    defaultValues: {
-      // pass undefined to the form fields to avoid updating to empty string
-      password: undefined,
-      newPassword: undefined,
-      name: user?.name || undefined,
-      email: user?.email || undefined,
-      role: user?.role || undefined,
-      isTwoFactorEnabled: user?.isTwoFactorEnabled || undefined,
-    }
-  });
-
-  const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
-    // start the transition setting isPending to true
-    startTransition(() => {
-        // call the settings action with the form values
-      settings(values)
-        .then((data) => {
-            // if there is an error, set the error state
-          if (data.error) {
-            setError(data.error);
-          }
-          // if there is a success message, update the session and set the success state
-          if (data.success) {
-            update();
-            setSuccess(data.success);
-          }
-        })
-        // fallback error message if data is not returned
-        .catch(() => setError("Something went wrong!"));
-    });
-  }
+   const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
+     // start the transition setting isPending to true
+     startTransition(() => {
+         // call the settings action with the form values
+       settings(values)
+         .then((data) => {
+             // if there is an error, set the error state
+           if (data.error) {
+             setError(data.error);
+           }
+           // if there is a success message, update the session and set the success state
+           if (data.success) {
+             update();
+             setSuccess(data.success);
+           }
+         })
+         // fallback error message if data is not returned
+         .catch(() => setError("Something went wrong!"));
+     });
+   }
 
   return (
     <Card className="w-[600px]">
@@ -113,35 +111,6 @@ const SettingsPage = () => {
                   </FormItem>
                 )}
               />
-               <FormField
-                control={form.control}
-                name="role"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Role</FormLabel>
-                    <Select
-                      disabled={isPending}
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a role" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value={UserRole.ADMIN}>
-                          Admin
-                        </SelectItem>
-                        <SelectItem value={UserRole.USER}>
-                          User
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
               {user?.isOAuth === false && (
                 <>
                   <FormField
@@ -167,7 +136,7 @@ const SettingsPage = () => {
                     name="password"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Current Password</FormLabel>
+                        <FormLabel>Password</FormLabel>
                         <FormControl>
                           <Input
                             {...field}
@@ -198,7 +167,39 @@ const SettingsPage = () => {
                       </FormItem>
                     )}
                   />
-                  <FormField
+                </>
+              )}
+              <FormField
+                control={form.control}
+                name="role"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Role</FormLabel>
+                    <Select
+                      disabled={isPending}
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a role" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value={UserRole.ADMIN}>
+                          Admin
+                        </SelectItem>
+                        <SelectItem value={UserRole.USER}>
+                          User
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {user?.isOAuth === false && (
+                <FormField
                   control={form.control}
                   name="isTwoFactorEnabled"
                   render={({ field }) => (
@@ -219,7 +220,6 @@ const SettingsPage = () => {
                     </FormItem>
                   )}
                 />
-                </>
               )}
             </div>
             <FormError message={error} />
@@ -234,7 +234,6 @@ const SettingsPage = () => {
         </Form>
       </CardContent>
     </Card>
-
    );
 }
 

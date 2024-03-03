@@ -16,19 +16,19 @@ export const RoleGate = ({
 }: RoleGateProps) => {
 
     // get the current user tole
-  const role = useCurrentRole();
+    const role = useCurrentRole();
 
-  // if role is not allowed, show an error message
-  if (role !== allowedRole) {
+    // if role is not allowed, show an error message
+    if (role !== allowedRole) {
+      return (
+        <FormError message="You do not have permission to view this content!" />
+      )
+    }
+
+    // if role is allowed, show the content
     return (
-      <FormError message="You do not have permission to view this content!" />
-    )
-  }
-
-  // if role is allowed, show the content
-  return (
-    <>
-      {children}
-    </>
-  );
-};
+      <>
+        {children}
+      </>
+    );
+  };

@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { ResetEmailSchema } from "@/schemas";
+import { ResetSchema } from "@/schemas";
 import { Input } from "@/components/ui/input";
 import {
   Form,
@@ -13,32 +13,32 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage,  
 } from "@/components/ui/form";
 import { CardWrapper } from "@/components/auth/card-wrapper"
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
-import { resetEmail } from "@/actions/reset-email";
+import { reset } from "@/actions/reset";
 
 export const ResetForm = () => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<z.infer<typeof ResetEmailSchema>>({
-    resolver: zodResolver(ResetEmailSchema),
+  const form = useForm<z.infer<typeof ResetSchema>>({
+    resolver: zodResolver(ResetSchema),
     defaultValues: {
       email: "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof ResetEmailSchema>) => {
+  const onSubmit = (values: z.infer<typeof ResetSchema>) => {
     setError("");
     setSuccess("");
 
     startTransition(() => {
-        resetEmail(values)
+      reset(values)
         .then((data) => {
           setError(data?.error);
           setSuccess(data?.success);
@@ -53,7 +53,7 @@ export const ResetForm = () => {
       backButtonHref="/auth/login"
     >
       <Form {...form}>
-        <form
+        <form 
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-6"
         >
@@ -84,7 +84,7 @@ export const ResetForm = () => {
             type="submit"
             className="w-full"
           >
-            Send reset password email
+            Send reset email
           </Button>
         </form>
       </Form>

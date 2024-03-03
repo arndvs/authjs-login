@@ -10,39 +10,40 @@ import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 
 export const NewVerificationForm = () => {
-  const [error, setError] = useState<string | undefined>();
-  const [success, setSuccess] = useState<string | undefined>();
+    const [error, setError] = useState<string | undefined>();
+    const [success, setSuccess] = useState<string | undefined>();
 
-  // fetch the verification token from the URL
-  const searchParams = useSearchParams();
+    // fetch the verification token from the URL
+    const searchParams = useSearchParams();
 
-  const token = searchParams.get("token");
+    const token = searchParams.get("token");
 
-  // call the onSubmit function when the component mounts
-  const onSubmit = useCallback(() => {
-    if (success || error) return;
+    // call the onSubmit function when the component mounts
+    const onSubmit = useCallback(() => {
+      if (success || error) return;
 
-    // if there is no verification token, set an error
-    if (!token) {
-      setError("Missing token!");
-      return;
-    }
+      // if there is no verification token, set an error
+      if (!token) {
+        setError("Missing token!");
+        return;
+      }
 
-    // call the newVerification function from the actions/new-verification file
-    newVerification(token)
-    // if the promise resolves, set the success or error message
-      .then((data) => {
-        setSuccess(data.success);
-        setError(data.error);
-      })
-      .catch(() => {
-        setError("Something went wrong!");
-      })
-  }, [token, success, error]);
+      // call the newVerification function from the actions/new-verification file
+      newVerification(token)
+      // if the promise resolves, set the success or error message
+        .then((data) => {
+          setSuccess(data.success);
+          setError(data.error);
+        })
+        .catch(() => {
+          setError("Something went wrong!");
+        })
+    }, [token, success, error]);
 
-  useEffect(() => {
-    onSubmit();
-  }, [onSubmit]);
+    useEffect(() => {
+      onSubmit();
+    }, [onSubmit]);
+
 
   return (
     <CardWrapper

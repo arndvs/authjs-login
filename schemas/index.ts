@@ -35,7 +35,7 @@ export const RegisterSchema = z.object({
 });
 
 // reset user email form schema
-export const ResetEmailSchema = z.object({
+export const ResetSchema = z.object({
     email: z.string().email({
       message: "Email is required",
     }),

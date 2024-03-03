@@ -2,25 +2,29 @@
 
 import * as z from "zod";
 import { AuthError } from "next-auth";
+
 import { db } from "@/lib/db";
 import { signIn } from "@/auth";
 import { LoginSchema } from "@/schemas";
-import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { getUserByEmail } from "@/data/user";
-import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
 import { getTwoFactorTokenByEmail } from "@/data/two-factor-token";
 import {
   sendVerificationEmail,
   sendTwoFactorTokenEmail,
 } from "@/lib/mail";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import {
-    generateVerificationToken,
-    generateTwoFactorToken
-  } from "@/lib/tokens";
+  generateVerificationToken,
+  generateTwoFactorToken
+} from "@/lib/tokens";
+import {
+  getTwoFactorConfirmationByUserId
+} from "@/data/two-factor-confirmation";
 
-
-export const login = async (values: z.infer<typeof LoginSchema>,
-    callbackUrl?: string | null,) => {
+export const login = async (
+  values: z.infer<typeof LoginSchema>,
+  callbackUrl?: string | null,
+) => {
   const validatedFields = LoginSchema.safeParse(values);
 
   if (!validatedFields.success) {
@@ -66,12 +70,14 @@ export const login = async (values: z.infer<typeof LoginSchema>,
       if (!twoFactorToken) {
         return { error: "Invalid code!" };
       }
+
       if (twoFactorToken.token !== code) {
         return { error: "Invalid code!" };
       }
 
       // Check if the token has expired and return an error if it has
       const hasExpired = new Date(twoFactorToken.expires) < new Date();
+
       if (hasExpired) {
         return { error: "Code expired!" };
       }

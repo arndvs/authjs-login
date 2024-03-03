@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 
 import authConfig from "@/auth.config";
 import {
-  DEFAULT_LOGIN_AUTH_ROUTE_REDIRECT,
+  DEFAULT_LOGIN_REDIRECT,
   apiAuthPrefix,
   authRoutes,
   publicRoutes,
@@ -24,16 +24,16 @@ export default auth((req) => {
 
   if (isAuthRoute) {
     if (isLoggedIn) {
-      return Response.redirect(new URL(DEFAULT_LOGIN_AUTH_ROUTE_REDIRECT, nextUrl))
+      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
     }
     return null;
   }
 
-  // if not logged in and not public route, redirect to login
+   // if not logged in and not public route, redirect to login
   if (!isLoggedIn && !isPublicRoute) {
     // redirect to login with callback url
     let callbackUrl = nextUrl.pathname;
-    // add search params if they exist
+      // add search params if they exist
     if (nextUrl.search) {
       callbackUrl += nextUrl.search;
     }

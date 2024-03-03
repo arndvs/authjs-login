@@ -7,8 +7,7 @@ import { Button } from "@/components/ui/button";
 import { UserButton } from "@/components/auth/user-button";
 
 export const Navbar = () => {
-
-  // The usePathname hook returns the current pathname of the URL.
+     // The usePathname hook returns the current pathname of the URL.
   const pathname = usePathname();
 
   return (
